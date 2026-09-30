@@ -139,8 +139,8 @@ function ExperienceCursor({ theme }: { theme: Theme }) {
       node.style.setProperty("--cursor-x", `${x}px`);
       node.style.setProperty("--cursor-y", `${y}px`);
       node.style.setProperty("--trail-angle", `${angle}rad`);
-      node.style.setProperty("--trail-length", `${Math.min(180, 34 + speed * 5)}px`);
-      node.style.setProperty("--trail-opacity", `${Math.min(.86, .14 + speed / 55)}`);
+      node.style.setProperty("--trail-length", `${Math.min(62, 26 + speed * 1.2)}px`);
+      node.style.setProperty("--trail-opacity", `${Math.min(.58, .12 + speed / 110)}`);
     };
     const schedule = () => { if (!raf) raf = requestAnimationFrame(render); };
     const move = (event: PointerEvent) => {
@@ -157,7 +157,7 @@ function ExperienceCursor({ theme }: { theme: Theme }) {
     };
     const leave = () => { fadeTimer = window.setTimeout(() => { node.style.opacity = "0"; }, 90); };
     const click = (event: PointerEvent) => {
-      const count = theme === "luxury" ? 26 : 24;
+      const count = theme === "luxury" ? 12 : 12;
       const prefix = theme === "luxury" ? "cursor-spark" : "cursor-space-spark";
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < count; i++) {
@@ -165,8 +165,8 @@ function ExperienceCursor({ theme }: { theme: Theme }) {
         const a = Math.random() * Math.PI * 2;
         const distance = 14 + Math.random() * 58;
         spark.className = prefix;
-        spark.style.setProperty("--click-x", `${event.clientX}px`);
-        spark.style.setProperty("--click-y", `${event.clientY}px`);
+        spark.style.left = `${event.clientX}px`;
+        spark.style.top = `${event.clientY}px`;
         spark.style.setProperty("--dx", `${Math.cos(a) * distance}px`);
         spark.style.setProperty("--dy", `${Math.sin(a) * distance}px`);
         spark.style.setProperty("--spark-rotate", `${(a * 180) / Math.PI + 90}deg`);
@@ -312,8 +312,8 @@ export function LuxuryShell({ page = "Overview" }: { page?: string }) {
   useScrollDirector();
   const content = useExperienceContent("luxury");
   const [muted, setMuted] = useState(true);
-  if (page !== "Overview") return <main className="luxury-page"><div className="luxury-global-media" style={{ backgroundImage: `url(${content.backgroundMedia || content.heroImage})` }} aria-hidden="true" /><CreativeLoader theme="luxury" /><ExperienceCursor theme="luxury" /><header className="lux-nav lux-nav-light"><Link className="wordmark" href="/luxury">{content.brand}</Link><nav className="lux-links">{(content.nav || navItems.luxury.slice(1).map(([label, href]) => [label, href])).map(([label, href]: string[]) => <Link key={href} href={href}>{label}</Link>)}</nav><span className="nav-index">{page.toUpperCase()} / 09</span></header><RouteScreen theme="luxury" page={page} data={content.pages?.[page]} /><LuxuryFooter config={content.footer} /></main>;
-  return <main className="luxury-page" style={{ "--experience-grain": content.grain ?? .18, "--hero-height": `${content.heroHeight ?? 100}svh`, "--motion-speed": content.animationSpeed ?? 1 } as CSSProperties}><div className="luxury-global-media" style={{ backgroundImage: `url(${content.backgroundMedia || content.heroImage})` }} aria-hidden="true" />
+  if (page !== "Overview") return <main className="luxury-page"><CreativeLoader theme="luxury" /><ExperienceCursor theme="luxury" /><header className="lux-nav lux-nav-light"><Link className="wordmark" href="/luxury">{content.brand}</Link><nav className="lux-links">{(content.nav || navItems.luxury.slice(1).map(([label, href]) => [label, href])).map(([label, href]: string[]) => <Link key={href} href={href}>{label}</Link>)}</nav><span className="nav-index">{page.toUpperCase()} / 09</span></header><RouteScreen theme="luxury" page={page} data={content.pages?.[page]} /><LuxuryFooter config={content.footer} /></main>;
+  return <main className="luxury-page" style={{ "--experience-grain": content.grain ?? .18, "--hero-height": `${content.heroHeight ?? 100}svh`, "--motion-speed": content.animationSpeed ?? 1 } as CSSProperties}>
     <CreativeLoader theme="luxury" /><ExperienceCursor theme="luxury" />
     <header className="lux-nav lux-nav-light"><Link className="wordmark" href="/luxury">{content.brand}</Link><nav className="lux-links">{(content.nav || navItems.luxury.slice(1).map(([label, href]) => [label, href])).map(([label, href]: string[]) => <Link key={href} href={href}>{label}</Link>)}</nav><span className="nav-index">{content.navLabel}</span></header>
     <section className="lux-hero cinematic-hero"><video className="hero-video" autoPlay muted={muted} loop playsInline preload="metadata" poster={content.heroImage}><source src={content.heroVideo} /><source src="/media/luxury-hero.mp4" /></video><div className="hero-shade" /><div className="hero-meta"><span>{content.meta?.line1}</span><span>{content.meta?.line2}</span></div><div className="lux-hero-copy"><p className="eyebrow">{content.meta?.eyebrow}</p><h1>{content.title}</h1><p>{content.subtitle}</p><Link href="/luxury/experience" className="lux-button">{content.cta}<ArrowDown /></Link></div><div className="scroll-note"><span>{content.meta?.scroll}</span><span className="line" /></div><button className="video-control" onClick={() => setMuted(v => !v)} aria-label={muted ? "Unmute film" : "Mute film"}>{muted ? <VolumeX /> : <Volume2 />}</button></section>
@@ -333,10 +333,10 @@ export function SpaceShell({ page = "Orbit" }: { page?: string }) {
   const journeyRef = useElementProgress();
   const [planet, setPlanet] = useState(0);
   const [launch, setLaunch] = useState(false);
-  if (page !== "Orbit") return <main className="space-page" style={{ "--space-earth-image": `url(${content.backgroundMedia || content.heroImage})`, "--space-route-image": `url(${content.pages?.Explore?.image || content.heroImage})` } as CSSProperties}><div className="space-global-earth" aria-hidden="true" /><CreativeLoader theme="space" /><ExperienceCursor theme="space" /><header className="space-nav"><Link className="space-mark" href="/space"><span className="mark-orbit" /> {content.brand}</Link><nav>{(content.nav || navItems.space.slice(1).map(([href, label]) => [label, href])).map(([label, href]: string[]) => <Link key={href} href={href}>{label.toUpperCase()}</Link>)}</nav><button className="signal" onClick={() => setLaunch(v => !v)}>{launch ? content.hero.signalLaunch : content.hero.signalIdle}</button></header><RouteScreen theme="space" page={page} data={content.pages?.[page]} /><SpaceFooter config={content.footer} /></main>;
+  if (page !== "Orbit") return <main className="space-page" style={{ "--space-earth-image": `url(${content.backgroundMedia || content.heroImage})`, "--space-route-image": `url(${content.pages?.Explore?.image || content.heroImage})` } as CSSProperties}><CreativeLoader theme="space" /><ExperienceCursor theme="space" /><header className="space-nav"><Link className="space-mark" href="/space"><span className="mark-orbit" /> {content.brand}</Link><nav>{(content.nav || navItems.space.slice(1).map(([href, label]) => [label, href])).map(([label, href]: string[]) => <Link key={href} href={href}>{label.toUpperCase()}</Link>)}</nav><button className="signal" onClick={() => setLaunch(v => !v)}>{launch ? content.hero.signalLaunch : content.hero.signalIdle}</button></header><RouteScreen theme="space" page={page} data={content.pages?.[page]} /><SpaceFooter config={content.footer} /></main>;
   const activePlanet = content.planets.items[planet] || content.planets.items[0];
   return <main className="space-page" style={{ "--space-accent": activePlanet?.color, "--space-earth-image": `url(${content.backgroundMedia || content.heroImage})`, "--space-route-image": `url(${content.pages?.Explore?.image || content.heroImage})` } as CSSProperties}>
-    <div className="space-global-earth" aria-hidden="true" /><CreativeLoader theme="space" /><ExperienceCursor theme="space" />
+    <CreativeLoader theme="space" /><ExperienceCursor theme="space" />
     <header className="space-nav"><Link className="space-mark" href="/space"><span className="mark-orbit" /> {content.brand}</Link><nav>{(content.nav || navItems.space.slice(1).map(([href, label]) => [label, href])).map(([label, href]: string[]) => <Link key={href} href={href}>{label.toUpperCase()}</Link>)}</nav><button className="signal" onClick={() => setLaunch(v => !v)}>{launch ? content.hero.signalLaunch : content.hero.signalIdle}</button></header>
     <section className="space-hero cinematic-hero"><video className="space-hero-video" autoPlay muted loop playsInline preload="metadata" poster={content.heroImage}><source src={content.heroVideo} /></video><div className="space-video-shade" /><DeferredScene delayMs={350} space color={activePlanet?.color} launch={launch} model="orbiter" /><div className="space-stars-copy"><p className="space-eyebrow">{content.hero.eyebrow}</p><h1>{content.title}</h1><p>{content.subtitle}</p><Link className="space-button" href="/space/missions">{content.cta}<ArrowDown /></Link></div><div className="coordinates">{splitLines(content.hero.coordinates)}</div><div className="flight-readout"><span>{content.hero.velocityLabel}</span><strong>{launch ? content.hero.launchedVelocity : content.hero.idleVelocity}</strong><span>{content.hero.cameraLink}</span></div></section>
     <MediaInterlude theme="space" config={content.interlude} />

@@ -414,6 +414,7 @@ export function ExperienceScene({
     <div
       ref={hostRef}
       className={`scene-canvas ${space ? "scene-space" : "scene-luxury"}`}
+      style={{ background: "transparent" }}
       aria-label={
         activeModel === "earth"
           ? "Interactive Earth model"
@@ -448,6 +449,7 @@ export function ExperienceScene({
           localClippingEnabled: false,
         }}
         performance={{ min: 0.55, max: 1, debounce: 120 }}
+        onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
       >
         <ScrollCameraRig space={space} model={activeModel} />
         <ambientLight

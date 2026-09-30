@@ -187,7 +187,7 @@ function ExperienceCursor({ theme }: { theme: Theme }) {
       window.removeEventListener("pointerdown", click);
     };
   }, [theme]);
-  return <div ref={rootRef} className={`experience-cursor cursor-${theme}`} aria-hidden="true"><i className="cursor-core" /><b className="cursor-trail" /></div>;
+  return <div ref={rootRef} className={`experience-cursor cursor-${theme}`} aria-hidden="true"><i className="cursor-core" /><b className="cursor-trail" /><span className="cursor-tail" /></div>;
 }
 
 function RouteScreen({ theme, page, data }: { theme: Theme; page: string; data: any }) {

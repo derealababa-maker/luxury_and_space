@@ -98,9 +98,7 @@ function LionHead({ onSelect }: { onSelect?: () => void }) {
     fitObject(clone, 2.72);
 clone.rotation.set(0, 0, 0);
 
-// Move the visible lion down so the sculpture is optically centered
-// after the lower plinth is clipped.
-clone.position.set(0, -1.2, 0);
+clone.position.set(0, -0.18, 0);
     clone.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
